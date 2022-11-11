@@ -1,0 +1,18 @@
+.content-welcome {
+
+width: 1041px;
+height: 314px;
+left: 199px;
+top: 463px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 75px;
+line-height: 91px;
+text-align: center;
+
+text-shadow: 0 0 1px #FA897B, 0 0 4px #FA897B;
+
+color: #FA897B;
+}
