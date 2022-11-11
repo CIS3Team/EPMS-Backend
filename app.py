@@ -3,18 +3,18 @@ import pymysql
 
 app = Flask(__name__)
 # test connect mysql
-# conn = pymysql.connect(
-#         host='localhost',
-#         user='root',
-#         password='',
-#         db='DB_Name'
-#     )
+conn = pymysql.connect(
+        host='localhost',
+        user='root',
+        password='',
+        db='epms_db'
+    )
 
 @app.route('/')
-def hello():
-    return render_template("html/index.html")
+def login():
+    return render_template("html/login.html")
 
-# @app.route('/login')
+# @app.route('/index')
 # def login():
 #     return 
 
