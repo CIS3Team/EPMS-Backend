@@ -4,16 +4,16 @@ import bcrypt
 
 app = Flask(__name__)
 # test connect mysql
-# conn = pymysql.connect(
-#         host='localhost',
-#         user='root',
-#         password='',
-#         db='epms_db'
-#     )
+conn = pymysql.connect(
+        host='localhost',
+        user='root',
+        password='',
+        db='epms_db'
+    )
 
 @app.route('/')
 def home():
-    return render_template("html/login.html")
+    return redirect(url_for('login'))
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -21,7 +21,29 @@ def login():
         username = request.form['username']
         password = request.form['password'].encode('utf-8')
 
-        
+        with conn:
+          with conn.cursor() as cursor:
+              # Read a single record
+                sql = "SELECT * FROM admins WHERE username=%s"
+                cursor.execute(sql, (username))
+                result = cursor.fetchone()
+                
+                if len(result) > 0:
+                    print(result[2])
+                    if bcrypt.hashpw(password, result[2].encode('utf-8')) == result[2].encode('utf-8'):
+                        session['username'] = result[1]
+                        return render_template("html/index.html")
+                else:
+                    return "Error Password"
+    else:
+        return render_template("html/login.html")
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+
 # @app.route('/index')
 # def login():
 #     return 
@@ -79,4 +101,5 @@ def login():
 
 
 if __name__ == "__main__":
+    app.secret_key = "123#!mnk)(%"
     app.run(debug=True)
