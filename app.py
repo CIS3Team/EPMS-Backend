@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, session
+from flask import Flask, render_template, url_for, request, redirect, session, flash
 import pymysql
 import bcrypt
 
@@ -8,7 +8,8 @@ conn = pymysql.connect(
         host='localhost',
         user='root',
         password='',
-        db='epms_db'
+        db='epms_db',
+        cursorclass=pymysql.cursors.DictCursor
     )
 
 @app.route('/')
@@ -18,23 +19,31 @@ def home():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form['username']
-        password = request.form['password'].encode('utf-8')
+        if len(request.form['username']) > 0 and len(request.form['password']) > 0 :
+            print( len(request.form['password']))
+            username = request.form['username']
+            password = request.form['password'].encode('utf-8')
 
-        with conn:
-          with conn.cursor() as cursor:
-              # Read a single record
-                sql = "SELECT * FROM admins WHERE username=%s"
-                cursor.execute(sql, (username))
-                result = cursor.fetchone()
-                
-                if len(result) > 0:
-                    print(result[2])
-                    if bcrypt.hashpw(password, result[2].encode('utf-8')) == result[2].encode('utf-8'):
-                        session['username'] = result[1]
-                        return render_template("html/index.html")
-                else:
-                    return "Error Password"
+            with conn.cursor() as cursor:
+                    # Read a single record
+                        sql = "SELECT * FROM admins WHERE username=%s"
+                        cursor.execute(sql, (username))
+                        conn.commit()
+                        result = cursor.fetchone()
+
+                        if result == None:
+                            error = "Invalid credentials"
+                            return render_template("html/login.html", error=error)
+                        elif len(result) > 0:
+                            if bcrypt.hashpw(password, result['password'].encode('utf-8')) == result['password'].encode('utf-8'):
+                                session['username'] = result['username']
+                                return render_template("html/index.html")
+                            else:
+                                error = "Invalid credentials"
+                                return render_template("html/login.html", error=error)
+                        else:
+                            error = "Invalid credentials"
+                            return render_template("html/login.html", error=error)
     else:
         return render_template("html/login.html")
 
