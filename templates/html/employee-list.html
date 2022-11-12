@@ -70,11 +70,9 @@
                 <td>{{result.eid}}</td>
                 <td>{{result.name}}</td>
                 <td>
-                        <a href="" class="btn btn-primary"><i class="bi bi-eye-fill"></i> View</a>
+                        <a href="/employee-view/{{result.id}}" class="btn btn-primary"><i class="bi bi-eye-fill"></i>View</a>
                         <a href="" class="btn btn-warning"><i class="bi bi-pen-fill"></i> Edit</a>
-                        <a href="/employee-delete/{{result.id}}" class="btn btn-danger"><i class="bi bi-trash"></i>
-                            Delete
-                        </button>
+                        <a href="/employee-delete/{{result.id}}" class="btn btn-danger"><i class="bi bi-trash"></i>Delete</a>
                 </td>
             </tr>
             {% endfor %}
@@ -131,7 +129,7 @@
         
 
         <div class="text-end">
-            <a href="employee-add.html" class="btn button-pink">Add Employee</a>
+            <a href="/employee-add" class="btn button-pink">Add Employee</a>
         </div>
 
     </div>

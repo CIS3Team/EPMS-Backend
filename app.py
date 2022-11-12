@@ -59,17 +59,49 @@ def elist():
         cursor.execute(sql)
         conn.commit()
         result = cursor.fetchall()
-        print(result)
-        return render_template('html/employee-list.html',datas=result)
+    return render_template('html/employee-list.html',datas=result)
+
+@app.route('/employee-view/<string:id_data>',methods=['GET'])
+def eview(id_data):
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT * FROM employee_detail WHERE id=%s",(id_data))
+        conn.commit()
+        result = cursor.fetchall()
+    return render_template('html/employee-view.html',datas=result)
+        
 
 @app.route('/employee-delete/<string:id_data>',methods=['GET'])
 def delete(id_data):
     with conn.cursor() as cursor:
         cursor.execute("DELETE FROM employee WHERE id=%s",(id_data))
         conn.commit()
-        result = cursor.fetchall()
-        print(result)
+        cursor.execute("DELETE FROM employee_detail WHERE id=%s",(id_data))
+        conn.commit()
     return redirect(url_for('elist'))
+
+@app.route('/add',methods=["POST"])
+def add():
+    if request.method=="POST":
+        name=request.form['name']
+        eid=request.form['eid']
+        phone=request.form['phone']
+        job=request.form['job']
+        compensation=request.form['compensation']
+        contract=request.form['contract']
+        with conn.cursor() as cursor:
+            sql1 = "INSERT INTO employee (eid,name) VALUES (%s,%s)"
+            sql2 = "INSERT INTO employee_detail (name,eid,phone,job,compensation,contract) VALUES (%s,%s,%s,%s,%s,%s)"
+            cursor.execute(sql1,(eid,name))
+            conn.commit()
+            cursor.execute(sql2,(name,eid,phone,job,compensation,contract))
+            conn.commit()
+        return redirect(url_for('elist'))
+
+@app.route('/employee-add')
+def eadd():
+    return render_template('html/employee-add.html')
+        
+
 
 # @app.route('/index')
 # def login():
