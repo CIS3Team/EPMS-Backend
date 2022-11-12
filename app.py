@@ -127,6 +127,8 @@ def eedit(id_data):
         result = cursor.fetchall()
     return render_template('html/employee-edit.html',datas=result)
 
+#C4P741N #P477Y #N477Y
+
 
 # @app.route('/index')
 # def login():
