@@ -54,7 +54,23 @@ def logout():
 
 @app.route('/employee-list')
 def elist():
-    return render_template("html/employee-list.html")
+    with conn.cursor() as cursor:
+        sql = "SELECT * FROM employee"
+        cursor.execute(sql)
+        conn.commit()
+        result = cursor.fetchall()
+        print(result)
+        return render_template('html/employee-list.html',datas=result)
+
+@app.route('/employee-delete/<string:id_data>',methods=['GET'])
+def delete(id_data):
+    with conn.cursor() as cursor:
+        cursor.execute("DELETE FROM employee WHERE id=%s",(id_data))
+        conn.commit()
+        result = cursor.fetchall()
+        print(result)
+    return redirect(url_for('elist'))
+
 # @app.route('/index')
 # def login():
 #     return 

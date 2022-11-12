@@ -55,7 +55,6 @@
                     Employee List</div>
             </div>
         </div>
-
         <table class="table table-bordered table-Success table-hover table-striped">
             <tr>
                 <th>No.</th>
@@ -64,38 +63,21 @@
                 <th>Action</th>
 
             </tr>
-
+            {% for result in datas %}
             <tr class="table-danger">
-                <td>1</td>
-                <td>E01</td>
-                <td>สมศักดิ์ ไม่สมศรี</td>
+                
+                <td>{{result.id}}</td>
+                <td>{{result.eid}}</td>
+                <td>{{result.name}}</td>
                 <td>
-                    <form action="employee-list.html" method="POST" onsubmit="return deldata('delete');">
                         <a href="" class="btn btn-primary"><i class="bi bi-eye-fill"></i> View</a>
                         <a href="" class="btn btn-warning"><i class="bi bi-pen-fill"></i> Edit</a>
-                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i>
+                        <a href="/employee-delete/{{result.id}}" class="btn btn-danger"><i class="bi bi-trash"></i>
                             Delete
                         </button>
-                    </form>
-
                 </td>
-
             </tr>
-
-            <tr class="table-danger">
-                <td>2</td>
-                <td>E02</td>
-                <td>สมศรี เมียสมศักดิ์</td>
-                <td>
-                    <form action="employee-list.html" method="POST">
-                        <a href="" class="btn btn-primary"><i class="bi bi-eye-fill"></i> View</a>
-                        <a href="" class="btn btn-warning"><i class="bi bi-pen-fill"></i> Edit</a>
-                        <button type="submit" class="btn btn-danger" onclick="del()"><i class="bi bi-trash"></i>
-                            Delete</button>
-                    </form>
-                </td>
-
-            </tr>
+            {% endfor %}
 
             <tr class="table-danger">
                 <td>3</td>
@@ -146,6 +128,7 @@
 
             </tr>
         </table>
+        
 
         <div class="text-end">
             <a href="employee-add.html" class="btn button-pink">Add Employee</a>
