@@ -1,19 +1,27 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, request, redirect, session
 import pymysql
+import bcrypt
 
 app = Flask(__name__)
 # test connect mysql
-conn = pymysql.connect(
-        host='localhost',
-        user='root',
-        password='',
-        db='epms_db'
-    )
+# conn = pymysql.connect(
+#         host='localhost',
+#         user='root',
+#         password='',
+#         db='epms_db'
+#     )
 
 @app.route('/')
-def login():
+def home():
     return render_template("html/login.html")
 
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form['username']
+        password = request.form['password'].encode('utf-8')
+
+        
 # @app.route('/index')
 # def login():
 #     return 
