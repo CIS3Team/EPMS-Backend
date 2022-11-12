@@ -68,7 +68,6 @@ def eview(id_data):
         conn.commit()
         result = cursor.fetchall()
     return render_template('html/employee-view.html',datas=result)
-        
 
 @app.route('/employee-delete/<string:id_data>',methods=['GET'])
 def delete(id_data):
@@ -101,6 +100,32 @@ def add():
 def eadd():
     return render_template('html/employee-add.html')
         
+@app.route('/update',methods=["POST"])
+def update():
+    if request.method=="POST":
+        id_update=request.form['id']
+        name=request.form['name']
+        eid=request.form['eid']
+        phone=request.form['phone']
+        job=request.form['job']
+        compensation=request.form['compensation']
+        contract=request.form['contract']
+        with conn.cursor() as cursor:
+            sql1 = "UPDATE employee SET eid=%s, name=%s WHERE id=%s"
+            sql2 = "UPDATE employee_detail SET name=%s, eid=%s, phone=%s, job=%s, compensation=%s, contract=%s WHERE id=%s"
+            cursor.execute(sql1,(eid,name,id_update))
+            conn.commit()
+            cursor.execute(sql2,(name,eid,phone,job,compensation,contract,id_update))
+            conn.commit()
+        return redirect(url_for('elist'))
+
+@app.route('/employee-edit/<string:id_data>',methods=['GET'])
+def eedit(id_data):
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT * FROM employee_detail WHERE id=%s",(id_data))
+        conn.commit()
+        result = cursor.fetchall()
+    return render_template('html/employee-edit.html',datas=result)
 
 
 # @app.route('/index')
