@@ -52,7 +52,9 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
-
+@app.route('/employee-list')
+def elist():
+    return render_template("html/employee-list.html")
 # @app.route('/index')
 # def login():
 #     return 
