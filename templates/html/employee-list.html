@@ -35,11 +35,11 @@
                     <a class="navbar-brand btn dropdown" data-bs-toggle="dropdown" aria-expanded="false"><i
                             class="bi bi-list" style="color:#ffff ;"></i></a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a class="dropdown-item" href="employee-list.html">Employee List</a></li>
+                        <li><a class="dropdown-item" href="/employee-list">Employee List</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                        <li><a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-left"></i>Logout</a></li>
                     </ul>
                 </div>
                 <div class="d-flex" role="search">
@@ -55,7 +55,6 @@
                     Employee List</div>
             </div>
         </div>
-
         <table class="table table-bordered table-Success table-hover table-striped">
             <tr>
                 <th>No.</th>
@@ -64,91 +63,24 @@
                 <th>Action</th>
 
             </tr>
-
+            {% for result in datas %}
             <tr class="table-danger">
-                <td>1</td>
-                <td>E01</td>
-                <td>สมศักดิ์ ไม่สมศรี</td>
+                
+                <td>{{result.id}}</td>
+                <td>{{result.eid}}</td>
+                <td>{{result.name}}</td>
                 <td>
-                    <form action="employee-list.html" method="POST" onsubmit="return deldata('delete');">
-                        <a href="" class="btn btn-primary"><i class="bi bi-eye-fill"></i> View</a>
-                        <a href="" class="btn btn-warning"><i class="bi bi-pen-fill"></i> Edit</a>
-                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i>
-                            Delete
-                        </button>
-                    </form>
-
+                        <a href="/employee-view/{{result.id}}" class="btn btn-primary"><i class="bi bi-eye-fill"></i>View</a>
+                        <a href="/employee-edit/{{result.id}}" class="btn btn-warning"><i class="bi bi-pen-fill"></i>Edit</a>
+                        <a href="/employee-delete/{{result.id}}" class="btn btn-danger"><i class="bi bi-trash"></i>Delete</a>
                 </td>
-
             </tr>
-
-            <tr class="table-danger">
-                <td>2</td>
-                <td>E02</td>
-                <td>สมศรี เมียสมศักดิ์</td>
-                <td>
-                    <form action="employee-list.html" method="POST">
-                        <a href="" class="btn btn-primary"><i class="bi bi-eye-fill"></i> View</a>
-                        <a href="" class="btn btn-warning"><i class="bi bi-pen-fill"></i> Edit</a>
-                        <button type="submit" class="btn btn-danger" onclick="del()"><i class="bi bi-trash"></i>
-                            Delete</button>
-                    </form>
-                </td>
-
-            </tr>
-
-            <tr class="table-danger">
-                <td>3</td>
-                <td>E03</td>
-                <td>ศรีสมร กิ๊กสมศักดิ์</td>
-                <td>
-                    <form action="employee-list.html" method="POST">
-                        <a href="employee-view.html" class="btn btn-primary"><i class="bi bi-eye-fill"></i> View</a>
-                        <a href="employee-edit.html" class="btn btn-warning"><i class="bi bi-pen-fill"></i> Edit</a>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop"><i class="bi bi-trash"></i> Delete</button>
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-body justify-content-center">
-                                            <figure class="figure">
-                                                <img src="https://cdn.dribbble.com/users/251873/screenshots/9288094/media/a1c2f89065f68e1b2b5dcb66bdb9beb1.gif"
-                                                    class="figure-img img-fluid rounded" alt="...">
-                                                <div class="grid text-center">
-                                                    <div class="g-col-4">
-                                                        <p class="fs-4 fw-bolder">Are you sure want to delete</p>
-                                                        <p class="fs-5 fw-lighter lh-sm">This item will be deleted immediately. You can't undo this action.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="container overflow-hidden text-center">
-                                                    <div class="row gx-5">
-                                                        <div class="col">
-                                                            <div class="p-3 btn btn-info" data-bs-dismiss="modal" aria-label="Close">Cancel</div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <button class="p-3 btn btn-danger">Delete</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </figure>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </form>
-                </td>
-
-            </tr>
+            {% endfor %}
         </table>
+        
 
         <div class="text-end">
-            <a href="employee-add.html" class="btn button-pink">Add Employee</a>
+            <a href="/employee-add" class="btn button-pink">Add Employee</a>
         </div>
 
     </div>
